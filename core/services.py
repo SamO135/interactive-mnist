@@ -33,7 +33,7 @@ class Services:
 
     def random_image(self) -> Tensor:
         """Gets a random image from MNIST test set for testing/debugging purposes."""
-        test_data = datasets.MNIST(root='core/network/data',
+        test_data = datasets.MNIST(root='network/data',
                                    train=False, transform=ToTensor())
         image, label = test_data[random.randint(0, len(test_data)-1)]
         return image
