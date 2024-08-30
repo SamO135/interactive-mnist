@@ -5,6 +5,6 @@ app = FastAPI()
 services = Services()
 
 
-@app.get("/testing")
+@app.get("/")
 def root():
     return services.predict_number(services.random_image())
