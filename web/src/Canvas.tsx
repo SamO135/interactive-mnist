@@ -58,6 +58,14 @@ function Canvas() {
     }
   };
 
+  const clearCanvas = () => {
+    const canvas = canvasRef.current;
+    const context = contextRef.current;
+    if (canvas && context) {
+      context.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+    }
+  };
+
   return (
     <div style={{ position: "relative", width: "280px", height: "280px" }}>
       <canvas
@@ -66,6 +74,14 @@ function Canvas() {
         onMouseMove={draw}
         ref={canvasRef}
       />
+      <button
+        type="button"
+        className="btn btn-primary"
+        onClick={clearCanvas}
+        style={{ position: "absolute", top: "310px" }}
+      >
+        Clear
+      </button>
     </div>
   );
 }
