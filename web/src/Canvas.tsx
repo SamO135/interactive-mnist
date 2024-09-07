@@ -1,10 +1,12 @@
 import { useRef, useEffect, useState } from "react";
 import "./Canvas.css";
+import "./Probabilities";
 
 function Canvas() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const contextRef = useRef<CanvasRenderingContext2D | null>(null);
   const [isDrawing, setIsDrawing] = useState(false);
+  const [apiResponse, setApiResponse] = useState(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -23,7 +25,7 @@ function Canvas() {
     context.scale(2, 2);
     context.lineCap = "round";
     context.strokeStyle = "black";
-    context.lineWidth = 5;
+    context.lineWidth = 10;
     contextRef.current = context;
   }, []);
 
@@ -63,6 +65,39 @@ function Canvas() {
     const context = contextRef.current;
     if (canvas && context) {
       context.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+      // Fill the canvas with a white background
+      context.fillStyle = "white";
+      context.fillRect(0, 0, canvas.width, canvas.height);
+    }
+  };
+
+  const sendCanvasData = async () => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    // Convert canvas to a data URL
+    const dataUrl = canvas.toDataURL("image/png");
+
+    // console.log("Canvas Data (Base64):", dataUrl); // Log the canvas data before sending
+
+    // Convert data URL to Blob
+    const blob = await fetch(dataUrl).then((res) => res.blob());
+
+    // Send the image as form data to the FastAPI backend
+    const formData = new FormData();
+    formData.append("file", blob, "canvas.png");
+
+    try {
+      const response = await fetch("http://localhost:8000/file-upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      const result = await response.json();
+      setApiResponse(result);
+      console.log(result);
+    } catch (error) {
+      console.error("Error uploading the image:", error);
     }
   };
 
@@ -82,6 +117,15 @@ function Canvas() {
       >
         Clear
       </button>
+      <button
+        type="button"
+        className="btn btn-primary"
+        onClick={sendCanvasData}
+        style={{ position: "absolute", top: "310px", left: "222px" }}
+      >
+        Submit
+      </button>
+      {/* <h1>{probabilities}</h1> */}
     </div>
   );
 }
