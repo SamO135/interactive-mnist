@@ -1,12 +1,15 @@
 import { useRef, useEffect, useState } from "react";
 import "./Canvas.css";
-import "./Probabilities";
+import Probabilities from "./Probabilities";
 
 function Canvas() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const contextRef = useRef<CanvasRenderingContext2D | null>(null);
   const [isDrawing, setIsDrawing] = useState(false);
-  const [apiResponse, setApiResponse] = useState(null);
+  const [apiResponse, setApiResponse] = useState<{
+    predicted_class: string;
+    probabilities: number[];
+  } | null>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -93,11 +96,13 @@ function Canvas() {
         body: formData,
       });
 
+      // Wait for the API response
       const result = await response.json();
       setApiResponse(result);
       console.log(result);
     } catch (error) {
       console.error("Error uploading the image:", error);
+      setApiResponse(null);
     }
   };
 
@@ -125,7 +130,14 @@ function Canvas() {
       >
         Submit
       </button>
-      {/* <h1>{probabilities}</h1> */}
+      {apiResponse === null ? (
+        <Probabilities predicted_class="None" probabilities={[0]} />
+      ) : (
+        <Probabilities
+          predicted_class={apiResponse.predicted_class}
+          probabilities={apiResponse.probabilities}
+        />
+      )}
     </div>
   );
 }
