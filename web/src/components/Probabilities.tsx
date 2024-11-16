@@ -1,3 +1,5 @@
+import "../style.css";
+
 interface Props {
   predicted_class: string;
   probabilities: number[];
@@ -5,7 +7,7 @@ interface Props {
 
 function Probabilities({ predicted_class, probabilities }: Props) {
   return (
-    <div style={{ position: "relative", width: "350px", left: "400px" }}>
+    <div id="probabilities">
       <h1>Predicted Class: {predicted_class}</h1>
       <h2>Probabilities:</h2>
       <ul>

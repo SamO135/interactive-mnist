@@ -1,0 +1,40 @@
+:root {
+  --canvas-width: 280px;
+  --canvas-height: 280px;
+}
+
+.container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding-top: 25px;
+  padding-bottom: 75px;
+}
+
+#canvas-container {
+  position: relative;
+  width: var(--canvas-width);
+  height: var(--canvas-height);
+}
+
+#canvas {
+  border: 2px solid black;
+  background-color: white;
+}
+
+#clear-button {
+  position: absolute;
+  top: 290px;
+  left: 0px;
+}
+
+#submit-button {
+  position: absolute;
+  top: 290px;
+  right: 0px;
+}
+
+#probabilities {
+  width: 350px;
+  left: 400px;
+}

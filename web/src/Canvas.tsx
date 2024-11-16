@@ -1,6 +1,6 @@
 import { useRef, useEffect, useState } from "react";
-import "./Canvas.css";
-import Probabilities from "./Probabilities";
+import "./style.css";
+import Probabilities from "./components/Probabilities";
 
 function Canvas() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -106,38 +106,46 @@ function Canvas() {
     }
   };
 
-  return (
-    <div style={{ position: "relative", width: "280px", height: "280px" }}>
-      <canvas
-        onMouseDown={startDrawing}
-        onMouseUp={finishDrawing}
-        onMouseMove={draw}
-        ref={canvasRef}
+  function displayApiResponse() {
+    return apiResponse === null ? (
+      <Probabilities predicted_class="None" probabilities={[0]} />
+    ) : (
+      <Probabilities
+        predicted_class={apiResponse.predicted_class}
+        probabilities={apiResponse.probabilities}
       />
-      <button
-        type="button"
-        className="btn btn-primary"
-        onClick={clearCanvas}
-        style={{ position: "absolute", top: "310px" }}
-      >
-        Clear
-      </button>
-      <button
-        type="button"
-        className="btn btn-primary"
-        onClick={sendCanvasData}
-        style={{ position: "absolute", top: "310px", left: "222px" }}
-      >
-        Submit
-      </button>
-      {apiResponse === null ? (
-        <Probabilities predicted_class="None" probabilities={[0]} />
-      ) : (
-        <Probabilities
-          predicted_class={apiResponse.predicted_class}
-          probabilities={apiResponse.probabilities}
+    );
+  }
+
+  return (
+    <div className="container">
+      <div id="canvas-container">
+        <canvas
+          id="canvas"
+          onMouseDown={startDrawing}
+          onMouseUp={finishDrawing}
+          onMouseMove={draw}
+          ref={canvasRef}
         />
-      )}
+        <button
+          id="clear-button"
+          type="button"
+          className="btn btn-primary"
+          onClick={clearCanvas}
+        >
+          Clear
+        </button>
+        <button
+          id="submit-button"
+          type="button"
+          className="btn btn-primary"
+          onClick={sendCanvasData}
+        >
+          Submit
+        </button>
+      </div>
+
+      {displayApiResponse()}
     </div>
   );
 }
