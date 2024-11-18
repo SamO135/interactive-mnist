@@ -30,6 +30,7 @@ function Canvas() {
     context.strokeStyle = "black";
     context.lineWidth = 10;
     contextRef.current = context;
+    clearCanvas();
   }, []);
 
   const startDrawing = ({
