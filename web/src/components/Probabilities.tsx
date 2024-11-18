@@ -1,20 +1,31 @@
+import { useEffect } from "react";
+import Chart from "chart.js/auto";
 import "../style.css";
+import createBarChart from "./BarChart.tsx";
 
 interface Props {
   predicted_class: string;
   probabilities: number[];
 }
 
-function Probabilities({ predicted_class, probabilities }: Props) {
+function Probabilities({ probabilities }: Props) {
+  useEffect(() => {
+    const ctx = document.getElementById(
+      "modelResponseChart"
+    ) as HTMLCanvasElement;
+
+    let barChart: Chart | null = null;
+
+    barChart = createBarChart(ctx, probabilities);
+
+    return () => {
+      if (barChart) barChart.destroy();
+    };
+  }, [probabilities]);
+
   return (
     <div id="probabilities">
-      <h1>Predicted Class: {predicted_class}</h1>
-      <h2>Probabilities:</h2>
-      <ul>
-        {probabilities.map((probability, index) => (
-          <li key={index}>{probability}</li>
-        ))}
-      </ul>
+      <canvas id="modelResponseChart"></canvas>
     </div>
   );
 }

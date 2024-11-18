@@ -1,11 +1,12 @@
 :root {
-  --canvas-width: 280px;
-  --canvas-height: 280px;
+  --canvas-width: 360px;
+  --canvas-height: 360px;
+  --button-top: 370px;
 }
 
 .container {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
   padding-top: 25px;
   padding-bottom: 75px;
@@ -24,17 +25,20 @@
 
 #clear-button {
   position: absolute;
-  top: 290px;
+  top: var(--button-top);
   left: 0px;
 }
 
 #submit-button {
   position: absolute;
-  top: 290px;
+  top: var(--button-top);
   right: 0px;
 }
 
 #probabilities {
-  width: 350px;
-  left: 400px;
+  padding-left: 50px;
+}
+
+#modelResponseChart {
+  height: var(--canvas-height);
 }
