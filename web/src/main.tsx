@@ -6,17 +6,11 @@ import "bootstrap/dist/css/bootstrap.css";
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora nulla,
-      cupiditate magni pariatur dolor ipsa aliquid! Saepe, tenetur alias
-      suscipit nemo adipisci voluptatum quasi quod dicta consequatur, temporibus
-      praesentium laborum repudiandae error quisquam sed ipsam. Dolorum, fuga
-      tempora? Nemo impedit saepe dignissimos iste nisi illo, eius explicabo
-      dolorum, quam laborum doloremque perferendis qui aut ex tempore eveniet
-      eum quaerat quia sunt suscipit, consequuntur enim! Quibusdam possimus
-      neque rerum perspiciatis debitis laboriosam quisquam praesentium saepe,
-      alias fuga aut, eveniet ipsam quia a dolorum inventore ullam sed harum
-      nesciunt, enim provident omnis. Debitis et quam soluta officiis itaque
-      necessitatibus quo corrupti officia.
+      Draw a number in the box. When you click submit, the image will be passed
+      through a simple convolutional neural network trained on the MNIST dataset
+      which will try to accurately classify the number you have drawn. The model
+      has an accuracy of ~98% on the MNIST dataset. To the right of the box you
+      will see what probabilities the model has assigned each number 0 - 9.
     </p>
     <Canvas />
     <p>
