@@ -10,6 +10,7 @@ function createBarChart(ctx: HTMLCanvasElement, probabilities: number[]) {
           label: "Model Confidence",
           data: probabilities,
           backgroundColor: ["#44c767"],
+          hoverBackgroundColor: ["#2c9347"],
         },
       ],
     },
