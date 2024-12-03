@@ -1,8 +1,8 @@
 FROM node:21.7.3
 
-COPY package*.json .
+COPY package*.json ./
 
-RUN npm install --only=production
+RUN npm install
 
 COPY . .
 
