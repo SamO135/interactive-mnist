@@ -17,9 +17,8 @@ function Canvas() {
     const parentElement = canvas.parentElement;
     if (!parentElement) return;
 
-    // Set canvas dimensions to match CSS dimensions but increase pixel density
-    canvas.width = parentElement.clientWidth * 2; // Adjust to parent width
-    canvas.height = parentElement.clientHeight * 2; // Adjust to parent height
+    canvas.width = parentElement.clientWidth * 2;
+    canvas.height = parentElement.clientHeight * 2;
     canvas.style.width = `${parentElement.clientWidth}px`;
     canvas.style.height = `${parentElement.clientHeight}px`;
 
@@ -68,8 +67,7 @@ function Canvas() {
     const canvas = canvasRef.current;
     const context = contextRef.current;
     if (canvas && context) {
-      context.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
-      // Fill the canvas with a white background
+      context.clearRect(0, 0, canvas.width, canvas.height);
       context.fillStyle = "white";
       context.fillRect(0, 0, canvas.width, canvas.height);
     }
@@ -79,25 +77,22 @@ function Canvas() {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    // Convert canvas to a data URL
     const dataUrl = canvas.toDataURL("image/png");
 
-    // console.log("Canvas Data (Base64):", dataUrl); // Log the canvas data before sending
-
-    // Convert data URL to Blob
     const blob = await fetch(dataUrl).then((res) => res.blob());
 
-    // Send the image as form data to the FastAPI backend
     const formData = new FormData();
     formData.append("file", blob, "canvas.png");
 
+    const endpointUrl =
+      "https://backend-860610452115.europe-west9.run.app/file-upload";
+
     try {
-      const response = await fetch("http://localhost:8000/file-upload", {
+      const response = await fetch(endpointUrl, {
         method: "POST",
         body: formData,
       });
 
-      // Wait for the API response
       const result = await response.json();
       setApiResponse(result);
       console.log(result);
