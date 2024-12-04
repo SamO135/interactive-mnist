@@ -18,6 +18,8 @@ createRoot(document.getElementById("root")!).render(
       The model scored an accuracy of ~98% on the validation dataset. To the
       right of the box you will see what probabilities the model has assigned
       each number 0 - 9.
+      <br></br>
+      <b>Note: The first couple submitions may take a few seconds</b>
     </p>
     <Canvas />
     <p id="footer-text">
