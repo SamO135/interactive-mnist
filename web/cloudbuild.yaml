@@ -1,6 +1,6 @@
 steps:
   - name: "gcr.io/cloud-builders/docker"
-    args: ["build", "-t", "gcr.io/interactive-mnist/frontend", "."]
+    args: ["build", "-t", "gcr.io/$PROJECT_ID/frontend", "."]
 
 images:
-  - "gcr.io/interactive-mnist/frontend"
+  - "gcr.io/$PROJECT_ID/frontend"

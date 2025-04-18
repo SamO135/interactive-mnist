@@ -1,7 +1,6 @@
 from fastapi import FastAPI, UploadFile
 from services import Services
 from fastapi.middleware.cors import CORSMiddleware
-import fastapi
 import os
 
 app = FastAPI()
@@ -24,5 +23,4 @@ def root():
 @app.post("/file-upload")
 async def upload_file(file: UploadFile):
     response = await services.predict_user_number(file)
-    # print(response)
     return response

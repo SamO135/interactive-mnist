@@ -1,13 +1,15 @@
 FROM node:21.7.3
 
+WORKDIR /home/node/
+
 COPY package*.json ./
 
 RUN npm install
 
-COPY . .
+COPY . ./
 
 RUN npm run build
 
-EXPOSE 5173
+EXPOSE 3000
 
-CMD ["npx", "serve", "-s", "dist", "-l", "5173"]
+CMD ["node", "src/dist/app.js"]

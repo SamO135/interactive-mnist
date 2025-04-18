@@ -84,11 +84,8 @@ function Canvas() {
     const formData = new FormData();
     formData.append("file", blob, "canvas.png");
 
-    const endpointUrl =
-      "https://backend-860610452115.europe-west9.run.app/file-upload";
-
     try {
-      const response = await fetch(endpointUrl, {
+      const response = await fetch("/file-upload", {
         method: "POST",
         body: formData,
       });
