@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import "./style.css";
 import Probabilities from "./components/Probabilities";
 
@@ -32,7 +32,7 @@ function Canvas() {
     clearCanvas();
   }, []);
 
-  const startDrawing = ({
+  const startMouseDrawing = ({
     nativeEvent,
   }: React.MouseEvent<HTMLCanvasElement>) => {
     const { offsetX, offsetY } = nativeEvent;
@@ -44,6 +44,35 @@ function Canvas() {
     }
   };
 
+  const startTouchDrawing = ({
+    nativeEvent,
+  }: React.TouchEvent<HTMLCanvasElement>) => {
+    const touch = nativeEvent.touches[0];
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const rect = canvas.getBoundingClientRect();
+    const offsetX = touch.clientX - rect.left;
+    const offsetY = touch.clientY - rect.top;
+    const context = contextRef.current;
+    if (context) {
+      context.beginPath();
+      context.moveTo(offsetX, offsetY);
+      setIsDrawing(true);
+    }
+  };
+
+  // const startDrawing = (
+  //   e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>
+  // ) => {
+  //   if (e.type == "mousedown") {
+  //     console.log("Mouse");
+  //     startMouseDrawing(e as React.MouseEvent<HTMLCanvasElement>);
+  //   } else if (e.type == "touchstart") {
+  //     console.log("Touch");
+  //     startTouchDrawing(e as React.TouchEvent<HTMLCanvasElement>);
+  //   }
+  // };
+
   const finishDrawing = () => {
     const context = contextRef.current;
     if (context) {
@@ -52,7 +81,26 @@ function Canvas() {
     setIsDrawing(false);
   };
 
-  const draw = ({ nativeEvent }: React.MouseEvent<HTMLCanvasElement>) => {
+  const touchDraw = ({ nativeEvent }: React.TouchEvent<HTMLCanvasElement>) => {
+    if (isDrawing) {
+      const touch = nativeEvent.touches[0];
+      const canvas = canvasRef.current;
+
+      if (!canvas) return;
+
+      const rect = canvas.getBoundingClientRect();
+      const offsetX = touch.clientX - rect.left;
+      const offsetY = touch.clientY - rect.top;
+
+      const context = contextRef.current;
+      if (context) {
+        context.lineTo(offsetX, offsetY);
+        context.stroke();
+      }
+    }
+  };
+
+  const mouseDraw = ({ nativeEvent }: React.MouseEvent<HTMLCanvasElement>) => {
     if (isDrawing) {
       const { offsetX, offsetY } = nativeEvent;
       const context = contextRef.current;
@@ -62,6 +110,16 @@ function Canvas() {
       }
     }
   };
+
+  // const draw = (
+  //   e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>
+  // ) => {
+  //   if (e.nativeEvent instanceof MouseEvent) {
+  //     mouseDraw(e as React.MouseEvent<HTMLCanvasElement>);
+  //   } else if (e.nativeEvent instanceof TouchEvent) {
+  //     touchDraw(e as React.TouchEvent<HTMLCanvasElement>);
+  //   }
+  // };
 
   const clearCanvas = () => {
     const canvas = canvasRef.current;
@@ -115,9 +173,12 @@ function Canvas() {
       <div id="canvas-container">
         <canvas
           id="canvas"
-          onMouseDown={startDrawing}
+          onMouseDown={startMouseDrawing}
           onMouseUp={finishDrawing}
-          onMouseMove={draw}
+          onMouseMove={mouseDraw}
+          onTouchStart={startTouchDrawing}
+          onTouchEnd={finishDrawing}
+          onTouchMove={touchDraw}
           ref={canvasRef}
         />
         <div className="canvas-buttons">
