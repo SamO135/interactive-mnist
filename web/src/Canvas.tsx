@@ -120,22 +120,24 @@ function Canvas() {
           onMouseMove={draw}
           ref={canvasRef}
         />
-        <button
-          id="clear-button"
-          type="button"
-          className="btn btn-primary"
-          onClick={clearCanvas}
-        >
-          Clear
-        </button>
-        <button
-          id="submit-button"
-          type="button"
-          className="btn btn-primary"
-          onClick={sendCanvasData}
-        >
-          Submit
-        </button>
+        <div className="canvas-buttons">
+          <button
+            id="clear-button"
+            type="button"
+            className="btn btn-primary"
+            onClick={clearCanvas}
+          >
+            Clear
+          </button>
+          <button
+            id="submit-button"
+            type="button"
+            className="btn btn-primary"
+            onClick={sendCanvasData}
+          >
+            Submit
+          </button>
+        </div>
       </div>
 
       {displayApiResponse()}

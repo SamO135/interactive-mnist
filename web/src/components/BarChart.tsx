@@ -15,6 +15,7 @@ function createBarChart(ctx: HTMLCanvasElement, probabilities: number[]) {
       ],
     },
     options: {
+      maintainAspectRatio: false,
       responsive: true,
       scales: {
         x: {
